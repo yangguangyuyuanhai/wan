@@ -1,0 +1,45 @@
+[2026-01-29 17:05:51] [INFO] [logger_config.py:120] - Qt主窗口初始化完成
+[2026-01-29 17:16:37] [INFO] [logger_config.py:120] - Qt主窗口初始化完成
+[2026-01-29 17:16:37] [INFO] [logger_config.py:120] - Qt GUI启动成功
+[2026-01-29 17:17:25] [INFO] [logger_config.py:120] - Qt主窗口初始化完成
+[2026-01-29 17:17:25] [INFO] [logger_config.py:120] - Qt GUI启动成功
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 正在启动系统...
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 系统启动成功
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - ============================================================
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 正在初始化系统...
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 管道调度器初始化
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - ============================================================
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 开始初始化管道系统...
+[2026-01-29 17:17:58] [ERROR] [logger_config.py:136] - 初始化失败: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
+Traceback (most recent call last):
+  File "F:\MVS\service_new\service_qt\..\scheduler.py", line 47, in initialize
+    self.config.validate()
+  File "F:\MVS\service_new\service_qt\..\pipeline_config.py", line 262, in validate
+    raise ValueError("配置验证失败:\n" + "\n".join(errors))
+ValueError: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 系统初始化失败
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 正在停止系统...
+[2026-01-29 17:17:58] [INFO] [logger_config.py:120] - 系统已停止
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 正在启动系统...
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 系统启动成功
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - ============================================================
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 管道调度器初始化
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 正在初始化系统...
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - ============================================================
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 开始初始化管道系统...
+[2026-01-29 17:18:05] [ERROR] [logger_config.py:136] - 初始化失败: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
+Traceback (most recent call last):
+  File "F:\MVS\service_new\service_qt\..\scheduler.py", line 47, in initialize
+    self.config.validate()
+  File "F:\MVS\service_new\service_qt\..\pipeline_config.py", line 262, in validate
+    raise ValueError("配置验证失败:\n" + "\n".join(errors))
+ValueError: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 系统初始化失败
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 正在停止系统...
+[2026-01-29 17:18:05] [INFO] [logger_config.py:120] - 系统已停止
+[2026-01-29 17:53:07] [INFO] [logger_config.py:120] - Qt主窗口初始化完成
+[2026-01-29 17:53:07] [INFO] [logger_config.py:120] - Qt GUI启动成功

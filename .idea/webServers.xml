@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="34cfd1be-c7a4-4cef-86fb-82bcc855d8c6" name="海康威视">
+        <fileTransfer accessType="SFTP" port="22" sshConfigId="06474bf8-cc9b-4e5e-8e33-2fd357adf6d2" sshConfig="海康威视">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,161 @@
+================================================================
+Service_new 目录依赖修复完成报告
+================================================================
+
+修复时间: 2026-01-29
+修复内容: 移除所有父目录依赖，确保 service_new 目录完全独立
+
+================================================================
+修复的文件列表
+================================================================
+
+【异步版本 - service_asyncio/】
+1. main_async.py
+   - 修复前: sys.path.insert(0, '..')
+   - 修复后: 使用 os.path 动态获取 service_new 根目录
+
+2. scheduler_async.py
+   - 添加: service_new 根目录路径设置
+   - 确保: 可以正确导入 pipeline_config, logger_config 等模块
+
+3. pipeline_core_async.py
+   - 添加: service_new 根目录路径设置
+   - 确保: 可以正确导入 logger_config
+
+4. camera_service_async.py
+   - 添加: service_new 根目录路径设置
+   - 保留: SDK路径设置（外部依赖，正常）
+
+5. services_async.py
+   - 修复前: sys.path.insert(0, '..')
+   - 修复后: 使用 os.path 动态获取 service_new 根目录
+   - 确保: 可以正确导入 services 包中的模块
+
+【Qt GUI版本 - service_qt/】
+6. run_gui.py
+   - 修复前: sys.path.insert(0, os.path.dirname(os.path.dirname(...)))
+   - 修复后: 使用标准化的路径获取方式
+
+7. main_window.py
+   - 修复前: sys.path.insert(0, '..')
+   - 修复后: 使用 os.path 动态获取 service_new 根目录
+
+8. test_qt.py
+   - 修复前: sys.path.insert(0, os.path.dirname(os.path.dirname(...)))
+   - 修复后: 使用标准化的路径获取方式
+
+9. test_gui_startup.py
+   - 修复前: sys.path.insert(0, os.path.dirname(os.path.dirname(...)))
+   - 修复后: 使用标准化的路径获取方式
+
+================================================================
+修复方法说明
+================================================================
+
+所有子目录中的Python文件都使用以下标准化的路径设置方式：
+
+```python
+import sys
+import os
+
+# 添加service_new根目录到路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+service_new_root = os.path.dirname(current_dir)
+if service_new_root not in sys.path:
+    sys.path.insert(0, service_new_root)
+```
+
+这种方式的优点：
+1. 动态获取路径，不依赖硬编码的 '..'
+2. 避免重复添加路径（检查 not in sys.path）
+3. 使用绝对路径，更加可靠
+4. 跨平台兼容（Windows/Linux/Mac）
+
+================================================================
+验证方法
+================================================================
+
+1. 运行导入测试脚本：
+   python test_imports.py
+
+2. 或使用批处理文件（Windows）：
+   测试导入.bat
+
+3. 手动测试各版本：
+   - 同步版本: python main.py --help
+   - 异步版本: cd service_asyncio && python main_async.py --help
+   - Qt GUI版本: cd service_qt && python run_gui.py
+
+================================================================
+目录结构说明
+================================================================
+
+service_new/                    # 根目录（完全独立）
+├── main.py                     # 同步版本主程序
+├── scheduler.py                # 调度器
+├── pipeline_core.py            # 管道核心
+├── pipeline_config.py          # 配置管理
+├── logger_config.py            # 日志配置
+├── requirements.txt            # 依赖列表
+├── services/                   # 微服务目录
+│   ├── __init__.py
+│   ├── camera_service.py       # 相机服务
+│   ├── preprocess_service.py   # 预处理服务
+│   ├── yolo_service.py         # YOLO服务
+│   ├── opencv_service.py       # OpenCV服务
+│   ├── display_service.py      # 显示服务
+│   └── storage_service.py      # 存储服务
+├── service_asyncio/            # 异步版本（子目录）
+│   ├── main_async.py           # ✓ 已修复
+│   ├── scheduler_async.py      # ✓ 已修复
+│   ├── pipeline_core_async.py  # ✓ 已修复
+│   ├── camera_service_async.py # ✓ 已修复
+│   └── services_async.py       # ✓ 已修复
+└── service_qt/                 # Qt GUI版本（子目录）
+    ├── run_gui.py              # ✓ 已修复
+    ├── main_window.py          # ✓ 已修复
+    ├── widgets.py
+    ├── styles.py
+    ├── dialogs.py
+    ├── test_qt.py              # ✓ 已修复
+    └── test_gui_startup.py     # ✓ 已修复
+
+================================================================
+外部依赖说明
+================================================================
+
+以下是正常的外部依赖（不需要修复）：
+
+1. SDK依赖（camera_service.py 和 camera_service_async.py）：
+   - Windows: 使用环境变量 MVCAM_COMMON_RUNENV
+   - Linux: 使用 Development/Samples/Python/MvImport
+   - 这是海康威视SDK的标准路径，属于正常的外部依赖
+
+2. Python包依赖（requirements.txt）：
+   - numpy
+   - opencv-python
+   - PyQt5（可选，仅GUI版本需要）
+   - ultralytics（可选，仅YOLO服务需要）
+
+================================================================
+测试结果
+================================================================
+
+✓ 所有 sys.path.insert(0, '..') 已移除
+✓ 所有子目录模块使用标准化路径设置
+✓ service_new 目录完全独立，可以单独复制使用
+✓ 无父目录依赖
+
+================================================================
+使用建议
+================================================================
+
+1. 将整个 service_new 目录复制到任何位置都可以独立运行
+2. 确保安装了 requirements.txt 中的依赖
+3. 确保海康威视SDK已正确安装并设置环境变量
+4. 根据需要选择运行不同版本：
+   - 同步版本：适合单相机、简单场景
+   - 异步版本：适合多相机、高并发场景
+   - Qt GUI版本：适合需要图形界面的场景
+
+================================================================

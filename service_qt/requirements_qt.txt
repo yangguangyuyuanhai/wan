@@ -1,0 +1,15 @@
+# Qt前端界面依赖
+
+# PyQt5核心
+PyQt5>=5.15.0
+PyQt5-tools>=5.15.0
+
+# 图像处理
+opencv-python>=4.5.0
+numpy>=1.19.0
+
+# 可选：Qt图表
+# PyQtChart>=5.15.0
+
+# 可选：Qt网络
+# PyQt5-sip>=12.8.0

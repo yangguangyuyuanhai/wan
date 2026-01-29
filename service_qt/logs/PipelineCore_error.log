@@ -1,0 +1,18 @@
+[2026-01-29 17:17:58] [ERROR] [logger_config.py:136] - 初始化失败: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
+Traceback (most recent call last):
+  File "F:\MVS\service_new\service_qt\..\scheduler.py", line 47, in initialize
+    self.config.validate()
+  File "F:\MVS\service_new\service_qt\..\pipeline_config.py", line 262, in validate
+    raise ValueError("配置验证失败:\n" + "\n".join(errors))
+ValueError: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
+[2026-01-29 17:18:05] [ERROR] [logger_config.py:136] - 初始化失败: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
+Traceback (most recent call last):
+  File "F:\MVS\service_new\service_qt\..\scheduler.py", line 47, in initialize
+    self.config.validate()
+  File "F:\MVS\service_new\service_qt\..\pipeline_config.py", line 262, in validate
+    raise ValueError("配置验证失败:\n" + "\n".join(errors))
+ValueError: 配置验证失败:
+YOLO模型文件不存在: ./models/yolov8n.pt
