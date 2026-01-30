@@ -1,0 +1,111 @@
+{
+    "name": "Industrial Vision Pipeline",
+    "version": "1.0.0",
+    "description": "工业视觉处理管道 - DAG 架构",
+    "metadata": {
+        "author": "System",
+        "created": "2024-01-01",
+        "environment": "production"
+    },
+    "nodes": [
+        {
+            "id": "camera_1",
+            "type": "camera_hik",
+            "config": {
+                "exposure_time": 10000,
+                "gain": 10.0,
+                "frame_rate": 30
+            },
+            "position": [
+                100,
+                100
+            ],
+            "enabled": true
+        },
+        {
+            "id": "preprocess_1",
+            "type": "preprocess",
+            "config": {
+                "convert_to_bgr": true,
+                "resize_enabled": false,
+                "target_size": [
+                    640,
+                    480
+                ]
+            },
+            "position": [
+                300,
+                100
+            ],
+            "enabled": true
+        },
+        {
+            "id": "yolo_1",
+            "type": "yolo_v8",
+            "config": {
+                "model_path": "models/yolov8n.pt",
+                "confidence_threshold": 0.5,
+                "device": "cpu"
+            },
+            "position": [
+                500,
+                100
+            ],
+            "enabled": true
+        },
+        {
+            "id": "display_1",
+            "type": "display",
+            "config": {
+                "window_name": "Detection Result",
+                "show_fps": true
+            },
+            "position": [
+                700,
+                100
+            ],
+            "enabled": true
+        },
+        {
+            "id": "storage_1",
+            "type": "image_writer",
+            "config": {
+                "save_path": "output/images",
+                "save_on_detection": true,
+                "format": "jpg"
+            },
+            "position": [
+                700,
+                200
+            ],
+            "enabled": true
+        }
+    ],
+    "connections": [
+        {
+            "from": "camera_1.image",
+            "to": "preprocess_1.image",
+            "enabled": true
+        },
+        {
+            "from": "preprocess_1.image",
+            "to": "yolo_1.image",
+            "enabled": true
+        },
+        {
+            "from": "yolo_1.annotated_image",
+            "to": "display_1.image",
+            "enabled": true
+        },
+        {
+            "from": "yolo_1.annotated_image",
+            "to": "storage_1.image",
+            "enabled": true
+        },
+        {
+            "from": "yolo_1.detections",
+            "to": "storage_1.detections",
+            "enabled": true
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "name": "MVP Pipeline - Camera to Display",
+    "version": "1.0.0",
+    "description": "最小闭环测试：相机采集 -> 显示",
+    "metadata": {
+        "author": "System",
+        "created": "2025-01-29",
+        "purpose": "里程碑2验证"
+    },
+    "nodes": [
+        {
+            "id": "camera1",
+            "type": "camera_hik",
+            "enabled": true,
+            "config": {
+                "device_index": 0,
+                "exposure_time": 10000,
+                "gain": 0.0,
+                "frame_rate": 30.0,
+                "trigger_mode": false,
+                "grab_timeout": 1000,
+                "enable_packet_size_optimization": true
+            },
+            "position": [
+                100,
+                200
+            ]
+        },
+        {
+            "id": "display1",
+            "type": "display",
+            "enabled": true,
+            "config": {
+                "window_name": "MVP - Camera Display",
+                "window_width": 800,
+                "window_height": 600,
+                "show_fps": true,
+                "show_frame_count": true,
+                "show_detections": false,
+                "show_detection_info": false,
+                "display_fps_limit": 30
+            },
+            "position": [
+                400,
+                200
+            ]
+        }
+    ],
+    "connections": [
+        {
+            "from": "camera1.image",
+            "to": "display1.image"
+        }
+    ]
+}

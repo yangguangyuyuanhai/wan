@@ -1,0 +1,59 @@
+{
+    "name": "Test Pipeline",
+    "version": "1.0.0",
+    "description": "测试管道 - 验证 DAG 系统",
+    "metadata": {
+        "author": "System",
+        "purpose": "testing"
+    },
+    "nodes": [
+        {
+            "id": "producer",
+            "type": "test_producer",
+            "config": {
+                "interval": 0.5
+            },
+            "position": [
+                100,
+                100
+            ],
+            "enabled": true
+        },
+        {
+            "id": "processor",
+            "type": "test_process",
+            "config": {
+                "multiplier": 2
+            },
+            "position": [
+                300,
+                100
+            ],
+            "enabled": true
+        },
+        {
+            "id": "consumer",
+            "type": "test_consumer",
+            "config": {
+                "print_output": true
+            },
+            "position": [
+                500,
+                100
+            ],
+            "enabled": true
+        }
+    ],
+    "connections": [
+        {
+            "from": "producer.number",
+            "to": "processor.number",
+            "enabled": true
+        },
+        {
+            "from": "processor.number",
+            "to": "consumer.number",
+            "enabled": true
+        }
+    ]
+}

@@ -1,0 +1,128 @@
+{
+  "graph_id": "milestone3_full_pipeline",
+  "description": "里程碑3完整流水线：Camera -> Preprocess -> YOLO -> OpenCV -> Display -> Save",
+  "version": "1.0.0",
+  "nodes": [
+    {
+      "id": "camera_source",
+      "type": "camera_hik",
+      "config": {
+        "exposure_time": 10000,
+        "gain": 10.0,
+        "frame_rate": 30.0,
+        "trigger_mode": false,
+        "auto_exposure": false
+      }
+    },
+    {
+      "id": "preprocessor",
+      "type": "preprocess",
+      "config": {
+        "convert_to_bgr": true,
+        "resize_enabled": true,
+        "resize_width": 640,
+        "resize_height": 480,
+        "denoise_enabled": false,
+        "sharpen_enabled": false,
+        "brightness_adjust": 0,
+        "contrast_adjust": 0
+      }
+    },
+    {
+      "id": "yolo_detector",
+      "type": "yolo_v8",
+      "config": {
+        "model_path": "./models/yolov8n.pt",
+        "confidence_threshold": 0.5,
+        "iou_threshold": 0.45,
+        "max_detections": 100,
+        "device": "cpu",
+        "use_half_precision": false,
+        "batch_size": 1
+      }
+    },
+    {
+      "id": "opencv_processor",
+      "type": "opencv_process",
+      "config": {
+        "edge_detection_enabled": true,
+        "canny_threshold1": 50,
+        "canny_threshold2": 150,
+        "contour_detection_enabled": true,
+        "contour_min_area": 100,
+        "contour_max_area": 10000,
+        "draw_contours": true,
+        "morphology_enabled": false,
+        "blur_enabled": false
+      }
+    },
+    {
+      "id": "display",
+      "type": "display",
+      "config": {
+        "window_name": "Milestone3 Pipeline",
+        "show_fps": true,
+        "show_detections": true,
+        "display_fps_limit": 30,
+        "auto_resize": true
+      }
+    },
+    {
+      "id": "image_saver",
+      "type": "image_writer",
+      "config": {
+        "save_images": true,
+        "save_path": "./output/milestone3",
+        "save_format": "jpg",
+        "jpeg_quality": 95,
+        "save_all_frames": false,
+        "save_interval": 30,
+        "save_on_detection": true,
+        "save_detections": true,
+        "detection_log_path": "./output/milestone3_detections.json",
+        "disk_monitor_enabled": true,
+        "disk_warning_threshold": 0.2,
+        "disk_critical_threshold": 0.1,
+        "max_files_count": 500,
+        "max_days_keep": 3,
+        "auto_cleanup_enabled": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "camera_source.image",
+      "to": "preprocessor.image"
+    },
+    {
+      "from": "preprocessor.image",
+      "to": "yolo_detector.image"
+    },
+    {
+      "from": "yolo_detector.annotated_image",
+      "to": "opencv_processor.image"
+    },
+    {
+      "from": "yolo_detector.detections",
+      "to": "opencv_processor.detections"
+    },
+    {
+      "from": "opencv_processor.processed_image",
+      "to": "display.image"
+    },
+    {
+      "from": "opencv_processor.processed_image",
+      "to": "image_saver.image"
+    },
+    {
+      "from": "yolo_detector.detections",
+      "to": "image_saver.detections"
+    }
+  ],
+  "execution_config": {
+    "error_strategy": "skip",
+    "max_queue_size": 10,
+    "enable_performance_monitoring": true,
+    "log_level": "INFO"
+  }
+}
