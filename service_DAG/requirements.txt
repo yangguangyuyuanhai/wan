@@ -1,0 +1,21 @@
+# 工业视觉系统依赖包
+
+# 基础依赖（必需）
+numpy>=1.19.0
+opencv-python>=4.5.0
+
+# YOLO目标检测（可选）
+# 如果需要YOLOv8，取消下面的注释
+# ultralytics>=8.0.0
+
+# 如果需要YOLOv5，取消下面的注释
+# torch>=1.7.0
+# torchvision>=0.8.0
+
+# 日志相关（已内置，无需额外安装）
+# logging
+
+# 注意：
+# 1. 海康威视SDK的Python绑定已包含在项目中（MvImport目录）
+# 2. 如果使用GPU加速YOLO，需要安装CUDA版本的PyTorch
+# 3. 建议使用Python 3.8或更高版本
